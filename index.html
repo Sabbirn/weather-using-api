@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background: url(images/bg-image.jpg) no-repeat;
+        background-size: cover;
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <form class="col-md-6 m-auto py-5">
+        <div class="input-group mb-3">
+          <input
+            id="input"
+            type="text"
+            class="form-control"
+            placeholder="Enter a location for Weather ..."
+          />
+          <div class="input-group-append">
+            <button id="search" type="button" class="btn btn-danger">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+      <div id="display" class="weather-status text-white text-center">
+        <img id="icone" />
+        <h1 id="name"></h1>
+        <h3><span id="temp"></span></h3>
+        <h3><span id="sky"></span></h3>
+      </div>
+    </div>
+    <script>
+      const search = document.getElementById("search");
+      search.addEventListener("click", () => {
+        const input = document.getElementById("input").value;
+        fetch(
+          `https://api.weatherapi.com/v1/current.json?key=fe6a9dd5470b4ab798b185657240406&q=${input}&aqi=no`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            const cityName = data.location.name;
+            const cityTemp = data.current.temp_c;
+            const cityTempF = data.current.temp_f;
+            const cityImg = data.current.condition.icon;
+            const outName = (document.getElementById("name").innerText =
+              cityName);
+            const outTemp = (document.getElementById("temp").innerText =
+              cityTemp + " " + "°C");
+            const citySky = (document.getElementById("sky").innerText =
+              cityTempF + " " + "°F");
+            const icone = document
+              .getElementById("icone")
+              .setAttribute("src", cityImg);
+          });
+      });
+    </script>
+  </body>
+</html>
